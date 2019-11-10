@@ -25,4 +25,6 @@ comment7.text=\r\n\ Search\ for\ one\ word\ in\ phrase.\ \ The\ search\ is\ not\
 comment8.params=
 comment8.target=java.lang.String\ getRandomResponse()
 comment8.text=\r\n\ Pick\ a\ default\ response\ to\ use\ if\ nothing\ else\ fits.\r\n\ @return\ a\ non-committal\ string\r\n
-numComments=9
+comment9.params=
+comment9.target=java.lang.String\ getJoke()
+numComments=10

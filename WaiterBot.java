@@ -58,6 +58,11 @@ public class WaiterBot
         {
             response = transformWhyStatement(statement);
         }
+        
+        else if (findKeyword(statement, "joke", 0) >= 0)
+        {
+            response = getJoke();
+        }
 
         else
         {
@@ -250,5 +255,30 @@ public class WaiterBot
 
         return response;
     }
+    private String getJoke()
+    {
+        final int NUMBER_OF_RESPONSES = 4;
+        double r = Math.random();
+        int whichResponse = (int)(r * NUMBER_OF_RESPONSES);
+        String response = "";
+        
+        if (whichResponse == 0)
+        {
+            response = "What do you do when your boat gets sick? Take it to the doc";
+        }
+        else if (whichResponse == 1)
+        {
+            response = "Why don’t they play poker in the jungle? Too many cheetahs";
+        }
+        else if (whichResponse == 2)
+        {
+            response = "Did you hear about the sensitive burglar? He takes things personally.";
+        }
+        else if (whichResponse == 3)
+        {
+            response = "Why does the golfer own two pairs of pants? There's a hole in one";
+        }
 
+        return response;
+    }
 }
