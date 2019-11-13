@@ -373,7 +373,7 @@ public class WaiterBot
     int jokeint = 0;
     private String getJoke()
     {
-     
+    
         String response = "";
         
         if (jokeint == 0)
