@@ -1,5 +1,4 @@
 import java.util.Scanner;
-
 /**
  * A simple class to run the Magpie class.
  * @author Laurie White
@@ -22,7 +21,8 @@ public class BotRunner
 		while (!statement.equals("Bye"))
 		{
 			System.out.println (maggie.getResponse(statement));
-			statement = in.nextLine();
+			statement = in.nextLine();			
+			
 		}
 	}
 

@@ -1,3 +1,5 @@
+import java.util.*;
+
 /**
  * A program to carry on conversations with a human user.
  * This version:
@@ -12,15 +14,44 @@
  */
 public class WaiterBot
 {
+    String[] menu = {"burger", "fries", "soda", "shake", "water"};
+    double[] price = {5.00, 2.00, 1.00, 2.00, 0.00};
+    double cost = 0.00;
+    ArrayList<String> recipt = new ArrayList<String>();
+
     /**
      * Get a default greeting   
      * @return a greeting
      */ 
     public String getGreeting()
     {
-        return "Hello, let's talk.";
+        return "Hello, we serve burgers, fries, soda, shakes, \nand water.";
+    }
+    /**
+     * gets bot's name
+     * @return name
+     */
+    public String getName() 
+    {
+        return "My name is WaiterBot";
     }
     
+    /**
+     * gets bot's creator names
+     * @return creator names
+     */
+    public String getCreator() 
+    {
+        return "Ethan, Avi, and Jonathan made me!";
+    }
+    /**
+     * gets bot's age
+     * @returns bot's age
+     */
+    public String getAge()
+    {
+        return "I was born on Novemeber 12, 2019.";
+    }
     /**
      * Gives a response to a user statement
      * 
@@ -35,6 +66,23 @@ public class WaiterBot
         {
             response = "Say something, please.";
         }
+        else if (findKeyword(statement, "cost") >= 0)
+    {
+    response = getPrice(statement);
+    }
+        else if (findKeyword(statement, "allergic") >= 0)
+	{
+	response = allergies(statement);
+	} 
+        else if (findKeyword(statement, "describe") >= 0 
+        || findKeyword(statement,"description")>=0)
+	{
+	response = menuDescription(statement);
+	}
+        else if (statement.toLowerCase().contains("love you") || statement.toLowerCase().contains("baby") || statement.toLowerCase().contains("beautiful") || statement.toLowerCase().contains("pretty"))
+        {
+            response = uncomfortable();
+        }
 
         else if (findKeyword(statement, "no") >= 0)
         {
@@ -46,6 +94,31 @@ public class WaiterBot
                 || findKeyword(statement, "brother") >= 0)
         {
             response = "Tell me more about your family.";
+        }
+        
+        else if (findKeyword(statement, "stupid")>=0
+                || findKeyword(statement,"idiot")>=0
+                || findKeyword(statement, "dumb")>=0
+                || findKeyword(statement, "hate")>=0
+                  )
+        {
+            int insultNumber = (int)(Math.random()*4+1);
+            if (insultNumber == 1) 
+            {
+                response = "Aww, I'm sad.";
+            }
+            else if (insultNumber == 2) 
+            {
+                response = "That's not nice.";
+            }
+            else if (insultNumber == 3) 
+            {
+                response = "Why you have to be mad?";
+            }
+            else if (insultNumber == 4) 
+            {
+                response = "Do you kiss your mother with that mouth?";
+            }
         }
 
         // Responses which require transformations
@@ -62,6 +135,43 @@ public class WaiterBot
         else if (findKeyword(statement, "joke", 0) >= 0)
         {
             response = getJoke();
+        }
+        
+        else if (findKeyword(statement, "religion",0)>=0 || findKeyword(statement, "believe", 0) >=0) 
+        {
+            response = religion();
+        }
+        else if ( findKeyword(statement, "politic", 0) >= 0 || findKeyword(statement, "politics", 0) >= 0 ) 
+        {
+            response = politic();
+        }
+        else if (findKeyword(statement,"your name", 0) >= 0 || (findKeyword(statement, "who", 0) >=0 && findKeyword(statement, "are",0)>= 0)) 
+        {
+            response = getName();
+        }
+        else if (findKeyword(statement,"who", 0) >= 0 && (findKeyword(statement, "you", 0) >= 0 || findKeyword(statement, "your",0) >=0)) 
+        {
+            response = getCreator();
+        }
+        else if (findKeyword(statement, "music",0) >= 0)
+        {
+            response = music();
+        }
+        else if (findKeyword(statement, "age", 0)>= 0 || (findKeyword(statement, "when")>= 0 || findKeyword(statement, "born") >=0)) 
+        {
+            response = getAge();
+        }
+        else if (findKeyword(statement, "buy", 0)>= 0 || (findKeyword(statement, "order")>= 0 || findKeyword(statement, "purhcase") >=0)) 
+        {
+            response = getBuy(statement);
+        }
+        else if (findKeyword(statement, "money", 0)>= 0 || (findKeyword(statement, "price")>= 0 || findKeyword(statement, "cost") >=0)) 
+        {
+            response = "The total cost is: " + cost + "0";
+        }
+        else if (findKeyword(statement, "receipt", 0)>= 0 || (findKeyword(statement, "breakdown")>= 0 || findKeyword(statement, "summary") >=0)) 
+        {
+            response = getRecipt();
         }
 
         else
@@ -252,33 +362,236 @@ public class WaiterBot
         {
             response = "You don't say.";
         }
-
         return response;
     }
+    /**
+     * gets joke from bot, asking more than 4 times no longer outputs joke
+     * @returns unique joke based on frequency of joke input
+     * class variable jokeint used to keep track of variable as method is run
+     * multiple times
+     */
+    int jokeint = 0;
     private String getJoke()
     {
-        final int NUMBER_OF_RESPONSES = 4;
-        double r = Math.random();
-        int whichResponse = (int)(r * NUMBER_OF_RESPONSES);
+     
         String response = "";
         
-        if (whichResponse == 0)
+        if (jokeint == 0)
         {
-            response = "What do you do when your boat gets sick? Take it to the doc";
+            jokeint++;
+            response = "What do you do when your boat gets sick? \nTake it to the doc";
         }
-        else if (whichResponse == 1)
+        else if (jokeint == 1)
         {
-            response = "Why don’t they play poker in the jungle? Too many cheetahs";
+            jokeint++;
+            response = "Why don’t they play poker in the jungle? \nToo many cheetahs";
         }
-        else if (whichResponse == 2)
+        else if (jokeint == 2)
         {
-            response = "Did you hear about the sensitive burglar? He takes things personally.";
+            jokeint++;
+            response = "Did you hear about the sensitive burglar? \nHe takes things personally.";
         }
-        else if (whichResponse == 3)
+        else if (jokeint == 3)
         {
-            response = "Why does the golfer own two pairs of pants? There's a hole in one";
+            jokeint++;
+            response = "Why does the golfer own two pairs of pants? \nThere's a hole in one";
         }
-
+        else {
+            response ="I'm out of jokes.";
+        }
         return response;
     }
+    int religionflag = 0;
+    int politicflag = 0;
+    /**
+     * gets response if user asks about religion
+     * returns input based on input frequency, utilizes religionflag variable
+     * as counter
+     */
+    private String religion() {
+        if (religionflag == 0) {
+        religionflag = 1;
+        return "Can we change the subject?";
+        }    
+        else if (religionflag==1) 
+        {
+        return "I will not talk to you about this subject.";
+        }
+        return "Can we change the subject?";
+    }
+    /**
+     * gets response if user asks about politics
+     * @returns reponseb ased on frequency of input, uses politicsflag as counter
+     */
+    private String politic() {
+        if (politicflag == 0) 
+        {
+            politicflag = 1;
+            return "Can we change the subject?";
+        }
+        else if (politicflag == 1) {
+            return "This subject is too controversial.";
+        }  
+        return "Can we change the subject?";
+    }
+
+/**
+     * Provides allergy information
+     * @param statement
+     * @return response
+     */
+    private String allergies(String statement)
+    {
+        String response = "";
+        statement = statement.trim().toLowerCase();
+        if (statement.contains("gluten"))
+        {
+            response = "Our burgers and fries contain gluten.";
+        }
+        else if (statement.contains("dairy"))
+        {
+            response = "Our shakes contains dairy.";
+        }
+        else
+        {
+            response = "It is unlikely that you are allergic to our food.";
+        }
+        return response;
+    }
+    
+    /**
+     * Gives description of menu items
+     * @param statement
+     * @return response 
+     */
+    private String menuDescription(String statement)
+    {
+        String response = "";
+        String[] description = {"Our burger is a sandwich consisting of one or \nmore cooked patties of ground meat, usually beef, placed inside a sliced bread roll or bun.", 
+            "Our fries are are pieces of potato that have been \ndeep-fried.",
+            "Soda is a sweet, sugary drink.", 
+            "Our shakes are made of high quality milk and \nice cream.",
+            "Water is the healthiest drink"};
+        statement = statement.trim().toLowerCase();
+        for (int i = 0; i < menu.length; i++)
+        {
+            if (statement.contains(menu[i]))
+            {
+                response = description[i];
+            }
+        }
+        return response;
+    }
+    
+    /**
+     * Provides price to user
+     * @param statement
+     * @return response
+     */
+    private String getPrice(String statement)
+    {
+        statement = statement.trim().toLowerCase();
+        String response = "";
+        
+        for (int i = 0; i < menu.length; i++)
+        {
+            if (statement.contains(menu[i]))
+            {
+                response = response + "The price of one " + menu[i] + " is $" + price[i] + ". ";
+            }
+        }
+        return response;
+    }
+
+    /**
+     * getter method for bot's music reference
+     * @returns string to respond to user input
+     */
+    private String music() {
+        return "I like to listen to jazz and disco!";
+    }
+    /**
+     * @returns a response if user asks uncomfortable questions 
+     * response changes based on frequency of user input
+     */
+    int uncomfortable = 0;
+    private String uncomfortable() 
+    {
+        if (uncomfortable == 0) 
+        {
+            uncomfortable++;
+            return "You're making me uncomfortable";
+        }
+        else if (uncomfortable == 1) 
+        {
+            uncomfortable++;
+            return "I am now uncomfortable";
+        }
+        else if (uncomfortable == 2) 
+        {
+            uncomfortable++;
+            return "Please stop. This is harassment.";
+        }
+        else if (uncomfortable == 3) 
+        {
+            return "STOP IT";
+        }
+        return "You're making me uncomfortable";
+    }
+     private String getBuy(String statement) 
+    {
+        if (statement.contains(menu[0])) 
+        {
+           cost += price[0];
+           recipt.add(menu[0]);
+           return "You have ordered one " + menu[0]; 
+        }
+        if (statement.contains(menu[1])) 
+        {
+           recipt.add(menu[1]);
+           cost += price[1];
+           return "You have ordered one " + menu[1]; 
+        }
+        if (statement.contains(menu[2])) 
+        {
+           recipt.add(menu[2]);
+           cost += price[2];
+           return "You have ordered one " + menu[2]; 
+        }
+        if (statement.contains(menu[3])) 
+        {
+           recipt.add(menu[3]);
+           cost += price[3];
+           return "You have ordered one " + menu[3]; 
+        }
+        if (statement.contains(menu[4])) 
+        {
+           recipt.add(menu[4]);
+           cost += price[4];
+           return "You have ordered one " + menu[4]; 
+        }
+        return "Your item of choice is not on this menu";
+    }
+    private String getRecipt() 
+    {
+        int occurrencesM0 = Collections.frequency(recipt, menu[0]);
+        int occurrencesM1 = Collections.frequency(recipt, menu[1]);
+        int occurrencesM2 = Collections.frequency(recipt, menu[2]);
+        int occurrencesM3 = Collections.frequency(recipt, menu[3]);
+        int occurrencesM4 = Collections.frequency(recipt, menu[4]);
+        double p0 = price[0] * occurrencesM0;
+        double p1 = price[1] * occurrencesM1;
+        double p2 = price[2] * occurrencesM2;
+        double p3 = price[3] * occurrencesM3;
+        double p4 = price[4] * occurrencesM4;
+        String finalRecipt0 = occurrencesM0 + "X " + menu[0] + " $" + p0 + "0";
+        String finalRecipt1 = occurrencesM1 + "X " + menu[1] + " $" + p1 + "0";
+        String finalRecipt2 = occurrencesM2 + "X " + menu[2] + " $" + p2 + "0";
+        String finalRecipt3 = occurrencesM3 + "X " + menu[3] + " $" + p3 + "0";
+        String finalRecipt4 = occurrencesM4 + "X " + menu[4] + " $" + p4 + "0";
+        String total = "Total Cost: $" + cost + "0";
+        return finalRecipt0 + "\n" + finalRecipt1 + "\n" + finalRecipt2 + "\n" + finalRecipt3 + "\n" + total;
+    }
+    
 }
+
