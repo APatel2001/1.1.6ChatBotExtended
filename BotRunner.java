@@ -1,8 +1,9 @@
 import java.util.Scanner;
 /**
- * A simple class to run the Magpie class.
- * @author Laurie White
- * @version April 2012
+ * @author Avi Patel
+ * @author Jonathan Wang
+ * @author Ethan Lau
+ * @version 11/12/19
  */
 public class BotRunner
 {

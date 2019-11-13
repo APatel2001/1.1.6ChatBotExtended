@@ -1,15 +1,17 @@
 import java.util.*;
 
 /**
- * A program to carry on conversations with a human user.
+ * A program that serves as a virtual waiter conversing with a human customer
  * This version:
  *<ul><li>
  *      Uses advanced search for keywords 
  *</li><li>
  *      Will transform statements as well as react to keywords
  *</li></ul>
- * @author Laurie White
- * @version April 2012
+ * @author Avi Patel
+ * @author Jonathan Wang
+ * @author Ethan Lau
+ * @version 11/12/19
  *
  */
 public class WaiterBot
@@ -17,7 +19,7 @@ public class WaiterBot
     String[] menu = {"burger", "fries", "soda", "shake", "water"};
     double[] price = {5.00, 2.00, 1.00, 2.00, 0.00};
     double cost = 0.00;
-    ArrayList<String> recipt = new ArrayList<String>();
+    ArrayList<String> receipt = new ArrayList<String>();
 
     /**
      * Get a default greeting   
@@ -46,7 +48,7 @@ public class WaiterBot
     }
     /**
      * gets bot's age
-     * @returns bot's age
+     * @return bot's age
      */
     public String getAge()
     {
@@ -171,7 +173,7 @@ public class WaiterBot
         }
         else if (findKeyword(statement, "receipt", 0)>= 0 || (findKeyword(statement, "breakdown")>= 0 || findKeyword(statement, "summary") >=0)) 
         {
-            response = getRecipt();
+            response = getreceipt();
         }
 
         else
@@ -255,6 +257,8 @@ public class WaiterBot
     /**
      * Method designed towards creating a specific repsonse aimed towards user
      * statements that include initial keyword of "I" and keyword "you"
+     * @param statement entered
+     * @return response to the question
      */
     private String transformWhyStatement(String statement)
     {
@@ -366,7 +370,7 @@ public class WaiterBot
     }
     /**
      * gets joke from bot, asking more than 4 times no longer outputs joke
-     * @returns unique joke based on frequency of joke input
+     * @return unique joke based on frequency of joke input
      * class variable jokeint used to keep track of variable as method is run
      * multiple times
      */
@@ -405,7 +409,7 @@ public class WaiterBot
     int politicflag = 0;
     /**
      * gets response if user asks about religion
-     * returns input based on input frequency, utilizes religionflag variable
+     * @return input based on input frequency, utilizes religionflag variable
      * as counter
      */
     private String religion() {
@@ -421,7 +425,7 @@ public class WaiterBot
     }
     /**
      * gets response if user asks about politics
-     * @returns reponseb ased on frequency of input, uses politicsflag as counter
+     * @return reponse based on frequency of input, uses politics flag as counter
      */
     private String politic() {
         if (politicflag == 0) 
@@ -505,13 +509,13 @@ public class WaiterBot
 
     /**
      * getter method for bot's music reference
-     * @returns string to respond to user input
+     * @return string to respond to user input
      */
     private String music() {
         return "I like to listen to jazz and disco!";
     }
     /**
-     * @returns a response if user asks uncomfortable questions 
+     * @return a response if user asks uncomfortable questions 
      * response changes based on frequency of user input
      */
     int uncomfortable = 0;
@@ -538,59 +542,68 @@ public class WaiterBot
         }
         return "You're making me uncomfortable";
     }
+    /**
+     * Displays menu item ordered and totals up the price that you need to pay
+     * @param statement
+     * @return statement of menu item ordered
+     */
      private String getBuy(String statement) 
     {
         if (statement.contains(menu[0])) 
         {
            cost += price[0];
-           recipt.add(menu[0]);
+           receipt.add(menu[0]);
            return "You have ordered one " + menu[0]; 
         }
         if (statement.contains(menu[1])) 
         {
-           recipt.add(menu[1]);
+           receipt.add(menu[1]);
            cost += price[1];
            return "You have ordered one " + menu[1]; 
         }
         if (statement.contains(menu[2])) 
         {
-           recipt.add(menu[2]);
+           receipt.add(menu[2]);
            cost += price[2];
            return "You have ordered one " + menu[2]; 
         }
         if (statement.contains(menu[3])) 
         {
-           recipt.add(menu[3]);
+           receipt.add(menu[3]);
            cost += price[3];
            return "You have ordered one " + menu[3]; 
         }
         if (statement.contains(menu[4])) 
         {
-           recipt.add(menu[4]);
+           receipt.add(menu[4]);
            cost += price[4];
            return "You have ordered one " + menu[4]; 
         }
         return "Your item of choice is not on this menu";
     }
-    private String getRecipt() 
+    /**
+     * displays a list of each menu item, the number of times ordered, and the total amount spend on the item
+     * @return receipt
+     */
+    private String getreceipt() 
     {
-        int occurrencesM0 = Collections.frequency(recipt, menu[0]);
-        int occurrencesM1 = Collections.frequency(recipt, menu[1]);
-        int occurrencesM2 = Collections.frequency(recipt, menu[2]);
-        int occurrencesM3 = Collections.frequency(recipt, menu[3]);
-        int occurrencesM4 = Collections.frequency(recipt, menu[4]);
+        int occurrencesM0 = Collections.frequency(receipt, menu[0]);
+        int occurrencesM1 = Collections.frequency(receipt, menu[1]);
+        int occurrencesM2 = Collections.frequency(receipt, menu[2]);
+        int occurrencesM3 = Collections.frequency(receipt, menu[3]);
+        int occurrencesM4 = Collections.frequency(receipt, menu[4]);
         double p0 = price[0] * occurrencesM0;
         double p1 = price[1] * occurrencesM1;
         double p2 = price[2] * occurrencesM2;
         double p3 = price[3] * occurrencesM3;
         double p4 = price[4] * occurrencesM4;
-        String finalRecipt0 = occurrencesM0 + "X " + menu[0] + " $" + p0 + "0";
-        String finalRecipt1 = occurrencesM1 + "X " + menu[1] + " $" + p1 + "0";
-        String finalRecipt2 = occurrencesM2 + "X " + menu[2] + " $" + p2 + "0";
-        String finalRecipt3 = occurrencesM3 + "X " + menu[3] + " $" + p3 + "0";
-        String finalRecipt4 = occurrencesM4 + "X " + menu[4] + " $" + p4 + "0";
+        String finalreceipt0 = occurrencesM0 + "X " + menu[0] + " $" + p0 + "0";
+        String finalreceipt1 = occurrencesM1 + "X " + menu[1] + " $" + p1 + "0";
+        String finalreceipt2 = occurrencesM2 + "X " + menu[2] + " $" + p2 + "0";
+        String finalreceipt3 = occurrencesM3 + "X " + menu[3] + " $" + p3 + "0";
+        String finalreceipt4 = occurrencesM4 + "X " + menu[4] + " $" + p4 + "0";
         String total = "Total Cost: $" + cost + "0";
-        return finalRecipt0 + "\n" + finalRecipt1 + "\n" + finalRecipt2 + "\n" + finalRecipt3 + "\n" + total;
+        return finalreceipt0 + "\n" + finalreceipt1 + "\n" + finalreceipt2 + "\n" + finalreceipt3 + "\n" + finalreceipt4 + "\n" + total;
     }
     
 }
